@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Ferdinan</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"> 
+
+</head>
+<script>
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Ambil elemen-elemen yang dibutuhkan
+        const audio = document.getElementById('myAudio');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const progressSlider = document.getElementById('progressSlider');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationTimeEl = document.getElementById('durationTime');
+
+        // Fungsi format waktu (detik ke m:ss)
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // 2. Fungsionalitas Play/Pause
+        playPauseButton.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                // Ubah ikon dari Play (&#x23F5;) menjadi Pause (&#x23F8;)
+                playPauseButton.innerHTML = '&#x23F8;'; 
+            } else {
+                audio.pause();
+                // Ubah ikon dari Pause (&#x23F8;) menjadi Play (&#x23F5;)
+                playPauseButton.innerHTML = '&#x23F5;'; 
+            }
+        });
+
+        // 3. Fungsionalitas Volume
+        audio.volume = volumeSlider.value / 100;
+        volumeSlider.addEventListener('input', () => {
+            audio.volume = volumeSlider.value / 100;
+        });
+
+        // 4. Update Progress Bar dan Waktu
+        
+        // Atur total durasi lagu saat metadata dimuat
+        audio.addEventListener('loadedmetadata', () => {
+            // Durasi ditampilkan sebagai waktu yang tersisa, seperti di gambar (-M:SS)
+            durationTimeEl.textContent = `-${formatTime(audio.duration)}`; 
+            progressSlider.max = audio.duration;
+        });
+
+        // Update progress dan waktu saat lagu diputar
+        audio.addEventListener('timeupdate', () => {
+            if (!isNaN(audio.duration)) {
+                const percentage = (audio.currentTime / audio.duration) * 100;
+                
+                // Update slider progress
+                progressSlider.value = audio.currentTime;
+                
+                // Update waktu saat ini (0:00)
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+
+                // Update waktu tersisa (-M:SS)
+                const remainingTime = audio.duration - audio.currentTime;
+                durationTimeEl.textContent = `-${formatTime(remainingTime)}`;
+                
+                // Tambahkan style untuk warna progress slider yang sudah terlewati
+                progressSlider.style.background = `linear-gradient(to right, #fff 0%, #fff ${percentage}%, #555 ${percentage}%, #555 100%)`;
+            }
+        });
+
+        // Pengguna menggeser progress bar
+        progressSlider.addEventListener('input', () => {
+            audio.currentTime = progressSlider.value;
+        });
+        
+        // Saat lagu selesai
+        audio.addEventListener('ended', () => {
+            playPauseButton.innerHTML = '&#x23F5;'; // Kembali ke ikon Play
+            progressSlider.value = 0; // Reset slider
+            currentTimeEl.textContent = '0:00';
+        });
+
+    });
+</script>
+<body>
+    
+    <div class="soft-bg-3"></div>
+
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">Ferdinan</div>
+
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">&#9776;</label>
+
+        <ul class="nav-links">
+            <li class="nav-item"><a class="nav-link active" href="index.html">About</a></li>
+            <li><a href="experiences.html">Experiences</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Hi, Aku <span>Ferdinan</span></h1>
+            <p>IT Student • Frontend Developer • UI/UX Enthusiast</p>
+            <a href="projects.html" class="btn">Lihat Project</a>
+        </div>
+
+        <div class="hero-img">
+            <img src="img/foto ferdinan.jpeg" alt="Foto Profile">
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-section">
+
+    <h2 class="about-title reveal">About Me</h2>
+
+    <!-- Main About Description -->
+    <div class="about-card reveal">
+        <p>
+            Information Technology student at Brawijaya University with experience in research, 
+            public relations, and event coordination. Skilled in technology research, communication strategy, 
+            and supporting seminars, exhibitions, and bootcamps. Possesses technical abilities in web development, 
+            database management, and software testing, supported by strong communication, analytical, and teamwork skills.
+        </p>
+    </div>
+
+    <!-- Fun Fact Slider -->
+    <div class="funfact reveal">
+        <h3>Fun Facts About Me 🌿</h3>
+
+        <div class="funfact-box" id="funfactBox">
+            <p id="funfactText"></p>
+        </div>
+    </div>
+
+
+    <!-- Timeline -->
+    <div class="timeline reveal">
+        <div class="timeline-item">
+            <span class="year">2021-2024</span>
+            <p>Social Sciences Major at SMA Yappenda .</p>
+        </div>
+
+        <div class="timeline-item">
+            <span class="year">2024-Present</span>
+            <p>Information Technology Student at Brawijaya University.</p>
+        </div>
+    </div>
+    <!-- Song -->
+ 
+ <<div class="music-player-card-vertical">
+    <audio id="myAudio">
+        <source src="The 1975 - About You (Official).mp3" type="audio/mp3">
+    </audio>
+
+    <div class="album-section">
+        <div class="top-controls">
+            <button class="favorite-button">&#9733;</button>
+            <button class="options-button">...</button>
+        </div>
+        <img id="albumCover" src="img/900x900bb-60.jpg" alt="Album Cover" class="album-image">
+    </div>
+
+    <div class="song-info-vertical">
+        <div id="songTitle" class="song-title">About You</div>
+        <div id="artistAlbum" class="artist-album">The 1975 — Being Funny In A Foreign Language</div>
+    </div>
+
+    <div class="time-control">
+        <input type="range" min="0" max="100" value="0" class="progress-slider" id="progressSlider">
+        <div class="time-labels">
+            <span id="currentTime">0:00</span>
+            <span id="durationTime">-0:00</span>
+        </div>
+    </div>
+
+    <div class="player-controls-vertical">
+    <button class="control-button download-button">
+        &#x2B07; 
+    </button> 
+    <button id="playPauseButton" class="control-button play-pause-button">&#x23F5;</button>
+    <button class="control-button repeat-button">
+        &#x21BB; 
+    </button>
+</div>
+
+    <div class="volume-control-bottom">
+        <span class="volume-icon">&#x1F508;</span>
+        <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
+    </div>
+</div>
+
+<div class="live-lyrics-container">
+  <div id="beatLyric" class="beat-lyric-line">Listening…</div>
+</div>
+
+<style>
+    
+    .live-lyrics-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 12px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.beat-lyric-line {
+    display: inline-block;
+    max-width: 100%;
+    word-wrap: break-word;
+    white-space: normal;
+
+    color: #979797;
+    font-weight: 500;
+    line-height: 1.4;
+
+    /* Responsive font size */
+    font-size: clamp(0.9rem, 4.5vw, 1.45rem);
+
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+/* Fade-in tiap pergantian lirik */
+.fadeInLyric {
+  animation: fadeLyric 0.9s ease forwards;
+}
+
+@keyframes fadeLyric {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+
+
+.beat-lyric-line {
+  transition: transform 0.15s ease, text-shadow 0.15s ease;
+}
+
+/* animasi ketika kena beat */
+.beat-hit {
+  transform: scale(1.20);
+  text-shadow: 0 0 18px 979797;
+}
+</style>
+</section>
+
+    <section class="skills">
+        <h2>Skills and Tools</h2>
+
+    <div class="skill-list">
+
+        <div class="skill">
+            <i class="bi bi-filetype-html"></i>
+            <span>HTML</span>
+        </div>
+
+        <div class="skill">
+            <i class="bi bi-filetype-css"></i>
+            <span>CSS</span>
+        </div>
+
+        <div class="skill">
+            <i class="bi bi-filetype-js"></i>
+            <span>JavaScript</span>
+        </div>
+
+        <div class="skill">
+            <i class="bi bi-filetype-php"></i>
+            <span>PHP</span>
+        </div>
+
+        <div class="skill">
+            <i class="bi bi-cup-hot"></i>
+            <span>Java</span>
+        </div>
+
+        <div class="skill">
+            <i class="bi bi-database"></i>
+            <span>MySQL</span>
+        </div>
+
+        <div class="skill">
+            <i class="bi bi-palette"></i>
+            <span>Figma</span>
+        </div>
+
+        <div class="skill">
+            <i class="bi bi-brush"></i>
+            <span>Canva</span>
+        </div>
+
+        <div class="skill">
+            <i class="bi bi-git"></i>
+            <span>Git</span>
+        </div>
+
+        <div class="skill">
+            <i class="bi bi-github"></i>
+            <span>GitHub</span>
+        </div>
+
+        <div class="skill">
+        <i class="bi bi-scissors"></i>
+        <span>CapCut</span>
+        </div>
+
+        <div class="skill">
+        <i class="bi bi-code-slash"></i>
+        <span>VS Code</span>
+        </div>
+
+        <div class="skill">
+         <i class="bi bi-lightning-charge"></i>
+        <span>Google Colab</span>
+        </div>
+
+        <div class="skill">
+        <i class="bi bi-terminal"></i>
+        <span>XAMPP</span>
+    </div>
+
+    <div class="skill">
+    <i class="bi bi-phone"></i>
+    <span>Flutter</span>
+</div>
+
+<div class="skill">
+    <i class="bi bi-fire"></i>
+    <span>Firebase</span>
+</div>
+
+<div class="skill">
+            <i class="bi bi-layers"></i>
+            <span>Laravel</span>
+        </div>
+
+    </div>
+
+</section>
+   
+</body>
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-name">
+            <h2>Ferdinan</h2>
+            <p>Information Technology Student</p>
+        </div>
+
+        <div class="footer-socials">
+            <a href="https://instagram.com/_dnannnnn" target="_blank"><i class="bi bi-instagram"></i></a>
+            <a href="https://id.linkedin.com/in/ferdinan-a1329a322" target="_blank"><i class="bi bi-linkedin"></i></a>
+            <a href="https://wa.me/6287792832018" target="_blank"><i class="bi bi-whatsapp"></i></a>
+            <a href="mailto:ferdinanjkt06@gmail.com"><i class="bi bi-envelope-fill"></i></a>
+        </div>
+
+        <p class="footer-copy">© 2025 Ferdinan. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="js/about.js"></script>
+
+
+<script>
+// Reveal on scroll
+const reveals = document.querySelectorAll(".reveal");
+
+function reveal() {
+    reveals.forEach((el) => {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+
+        if (elementTop < windowHeight - 100) {
+            el.classList.add("active");
+        }
+    });
+}
+
+window.addEventListener("scroll", reveal);
+reveal();
+
+
+// Fun Fact Slider
+const facts = [
+    "Suka main gitar tiap hari hehe",
+    "dengerin 'About you' 24/7" ,
+    "kamu bisa setel 'About You' dibawah ini",
+    "ngoding sambil denger Reality Club ☝🏻😔 ",
+    "Public Relation as always",
+    
+];
+
+let index = 0;
+const funfactText = document.getElementById('funfactText');
+
+function showFact() {
+    funfactText.innerHTML = facts[index];
+    index = (index + 1) % facts.length;
+}
+
+showFact();
+setInterval(showFact, 3000);
+</script>
+<script>
+  const currentPage = window.location.pathname.split("/").pop();
+  const links = document.querySelectorAll(".navbar a");
+
+  links.forEach(link => {
+    if (link.getAttribute("href") === currentPage) {
+      link.classList.add("active");
+    }
+  });
+</script>
+<script src="about.js"></script>
+
+<script>
+const audio = document.getElementById("myAudio");
+const lyricText = document.getElementById("beatLyric");
+
+let audioCtx, analyser, source;
+
+// Aktifkan AudioContext setelah user Play
+audio.addEventListener("play", () => {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        source = audioCtx.createMediaElementSource(audio);
+        
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+
+        analyser.fftSize = 256;
+    }
+
+    audioCtx.resume();
+    animateBeat();
+});
+
+function animateBeat() {
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    function detect() {
+        analyser.getByteFrequencyData(dataArray);
+
+        // cari frekuensi bass (sekitar 0–15)
+        let bass = 0;
+        for (let i = 0; i < 15; i++) bass += dataArray[i];
+
+        // threshold beat – kamu bisa naikkan/turunkan
+        if (bass > 1800) {
+            lyricText.classList.add("beat-hit");
+            lyricText.textContent = "♪ About You — The 1975";
+        } else {
+            lyricText.classList.remove("beat-hit");
+        }
+
+        requestAnimationFrame(detect);
+    }
+
+    detect();
+}
+</script>
+
+
+</html>

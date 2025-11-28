@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiences - Ferdinan</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const elements = document.querySelectorAll(".fade-scroll");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+            }
+        });
+    }, { threshold: 0.2 });
+
+    elements.forEach(el => observer.observe(el));
+});
+</script>
+<style>.fade-scroll {
+    opacity: 0;
+    transform: translateY(25px);
+    filter: blur(4px);
+    transition: 
+        opacity 0.8s ease-out,
+        transform 0.8s ease-out,
+        filter 0.8s ease-out;
+}
+
+.fade-scroll.show {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+</style>
+
+<body>
+
+    <div class="soft-bg-3"></div>
+
+    <nav>
+        <div class="logo">Ferdinan</div>
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">&#9776;</label>
+
+        <ul class="nav-links">
+            <li><a href="index.html">About</a></li>
+            <li class="nav-item"><a class="nav-link active" href="experiences.html">Experiences</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+   <!-- EXPERIENCE SECTION -->
+<section class="experience-section fade-scroll">
+    <div class="sparkle fade-scroll">✦</div>
+
+    <h1 class="experience-title fade-scroll">Organizational Experiences</h1>
+
+    <div class="experience-header fade-scroll">
+        <div>Research and Technology Staff, HMPSTI Vokasi UB</div>
+        <div>October 2024 - Present</div>
+    </div>
+
+    <div class="exp-content fade-scroll">
+
+        <ul class="exp-text"> <li>Conducting regular research and compiling information on national and international technology competitions to support student participation.</li> <li>Organizing major departmental programs such as technology exhibitions, tech bootcamps, and technology seminars to enhance student knowledge and engagement.</li> <li>Coordinating study groups and peer-learning sessions during mid-term and final exam periods to foster an active and supportive academic environment.</li> <li>Contributing to the department’s vision of building a collaborative, innovative, and progressive generation in the field of Information Technology.</li> </ul>
+
+        <div class="exp-images fade-scroll">
+            <img src="img/photo-collage.png (2).png" alt="img1">
+            <img src="img/Screenshot 2025-11-28 131327.png" alt="img2">
+            <img src="img/Web_Photo_Editor.jpg" alt="img3">
+            <img src="img/Screenshot 2025-11-28 141133.png" alt="img4">
+            <img src="img/DSC_0845.JPG" alt="img5">
+            <img src="img/IMG_8853.JPG" alt="img6"> 
+        </div>
+
+    </div>
+</section>
+
+
+</body>
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-name">
+            <h2>Ferdinan</h2>
+            <p>Information Technology Student</p>
+        </div>
+
+        <div class="footer-socials">
+            <a href="https://instagram.com/_dnannnnn" target="_blank"><i class="bi bi-instagram"></i></a>
+            <a href="https://id.linkedin.com/in/ferdinan-a1329a322" target="_blank"><i class="bi bi-linkedin"></i></a>
+            <a href="https://wa.me/6287792832018" target="_blank"><i class="bi bi-whatsapp"></i></a>
+            <a href="mailto:ferdinanjkt06@gmail.com"><i class="bi bi-envelope-fill"></i></a>
+        </div>
+
+        <p class="footer-copy">© 2025 Ferdinan. All rights reserved.</p>
+    </div>
+</footer>
+</html>
